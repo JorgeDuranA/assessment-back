@@ -12,7 +12,7 @@ async function bootstrap() {
   app.use(json({ limit: '70mb' }));
   app.use(urlencoded({ extended: true, limit: '70mb' }));
   app.useGlobalPipes(new ValidationPipe());
-  app.setGlobalPrefix(process.env.APP_GLOBAL_PREFIX);
+  app.setGlobalPrefix(process.env.APP_ASSESSMENT_PREFIX);
   app.useGlobalInterceptors(new ErrorsInterceptor());
   const config = new DocumentBuilder()
     .setTitle('XS GLOBAL')
@@ -48,7 +48,7 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/documentation', app, document);
-  await app.listen(process.env.APP_PORT);
+  await app.listen(process.env.PORT);
 }
 
 bootstrap()
@@ -57,7 +57,7 @@ bootstrap()
       'Listening on: http://localhost:' +
         process.env.PORT +
         '/' +
-        process.env.APP_GLOBAL_PREFIX,
+        process.env.APP_ASSESSMENT_PREFIX,
     );
     console.log('Server started successfully 🎸 ');
   })
