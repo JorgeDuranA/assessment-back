@@ -1,4 +1,6 @@
 import { CreateAssessmentDto } from '@/assessments/application/dtos/CreateAssessment';
+import { COLORS } from '@/assessments/constants/colors';
+import { LOGO_URI } from '@/assessments/constants/logo';
 import { IAssessmentService } from '@/assessments/domain/services/IAssessment.service.interface';
 import SymbolsAssessments from '@/assessments/symbols';
 import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
@@ -53,5 +55,36 @@ export class NestController {
   @Get('/all')
   async getAssessments() {
     return await this.assessmentService.getAll();
+  }
+
+  @ApiOperation({
+    summary: 'Retrieve company logo',
+    description: 'Endpoint to retrive company logo',
+  })
+  @ApiResponse({
+    type: Assessment,
+    status: 200,
+  })
+  @Get('/logo')
+  async getCompanyLogo() {
+    return {
+      logo: LOGO_URI,
+    };
+  }
+
+  @ApiOperation({
+    summary: 'Retrieve companys primary colors',
+    description: 'Endpoint to companys primary colors',
+  })
+  @ApiResponse({
+    type: Assessment,
+    status: 200,
+  })
+  @Get('/colors')
+  async getCompanyPrimaryColors() {
+    return {
+      buttonPrimaryColor: COLORS.BUTTON_PRIMARY_COLORS.BACKGROUND,
+      buttonTextPrimaryColor: COLORS.BUTTON_PRIMARY_COLORS.TEXT,
+    };
   }
 }
