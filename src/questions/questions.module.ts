@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { QuestionService } from './application/services/question.service';
 import { InMemoryQuestionRepository } from './infrastructure/InMemoryQuestionRepository';
-import { QuestionController } from './infrastructure/nest/nest.controller';
+import { QuestionController } from './infrastructure/nest/questions.controller';
 import SymbolsQuestions from './symbol';
 
 @Module({

@@ -20,7 +20,7 @@ import { Assessment } from './dtos/response/assessments.responses.dto';
   type: unauthorizedResponse,
 })
 */
-export class NestController {
+export class AssessmentController {
   constructor(
     @Inject(SymbolsAssessments.IAssessmentsService)
     private readonly assessmentService: IAssessmentService,

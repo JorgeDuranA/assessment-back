@@ -3,11 +3,11 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AssessmentsService } from './application/services/assessments.service';
 import { InMemoryAssessmentRepository } from './infrastructure/InMemoryAssessmentRepository';
-import { NestController } from './infrastructure/nest/nest.controller';
+import { AssessmentController } from './infrastructure/nest/assessments.controller';
 import SymbolsAssessments from './symbols';
 
 @Module({
-  controllers: [NestController],
+  controllers: [AssessmentController],
   imports: [TypeOrmModule.forFeature([Assessment])],
   providers: [
     {
