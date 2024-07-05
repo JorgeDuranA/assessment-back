@@ -8,7 +8,9 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TerminusModule } from '@nestjs/terminus';
+import { AssessmentsModule } from './assessments/assessments.module';
 import { LoggerMiddleware } from './common/middlewares/log/logger.middleware';
+import { QuestionsModule } from './questions/questions.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { LoggerMiddleware } from './common/middlewares/log/logger.middleware';
     CatalogsModule,
     DatabaseModule,
     TerminusModule,
+    QuestionsModule,
+    AssessmentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
