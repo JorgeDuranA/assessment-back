@@ -316,8 +316,8 @@ export class InMemoryQuestionRepository implements IQuestionRepository {
     this.logger.log('Finding all by assessment ' + assessmentId);
 
     return questions
-      .filter((question) => question.assessment === assessmentId)
-      .map((question) => new QuestionModel(question));
+      .map((question) => new QuestionModel(question))
+      .filter((q) => q.assessment == assessmentId);
   }
 
   async findByStep(step: number): Promise<QuestionModel[]> {
