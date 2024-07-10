@@ -1,9 +1,10 @@
 import { CreateAssessmentDto } from '@/assessments/application/dtos/CreateAssessment';
+import { CreateQuestionDto } from '@/assessments/application/dtos/CreateQuestion';
 import { SaveAnswerDto } from '@/assessments/application/dtos/SaveAnswer';
-import { COLORS } from '@/assessments/constants/colors';
-import { LOGO_URI } from '@/assessments/constants/logo';
+import { CreateBrandingDto } from '@/assessments/application/dtos/createBranding';
 import { IAnswerService } from '@/assessments/domain/services/IAnswer.service.interface';
 import { IAssessmentService } from '@/assessments/domain/services/IAssessment.service.interface';
+import { IBrandingService } from '@/assessments/domain/services/IBranding.service.interface';
 import { IQuestionService } from '@/assessments/domain/services/IQuestion.service.interface';
 import SymbolsAssessments from '@/assessments/symbols';
 import {
@@ -43,6 +44,8 @@ export class AssessmentController {
     private readonly questionService: IQuestionService,
     @Inject(SymbolsAssessments.IAnswerService)
     private readonly answerService: IAnswerService,
+    @Inject(SymbolsAssessments.IBrandingService)
+    private readonly brandingService: IBrandingService,
   ) {}
 
   @ApiOperation({
@@ -53,9 +56,26 @@ export class AssessmentController {
     type: Assessment,
     status: 200,
   })
-  @Post('/save')
+  @Post('/create')
   async saveAssessment(@Body() body: CreateAssessmentDto) {
-    const assessment = await this.assessmentService.save(body, body.id);
+    const assessment = await this.assessmentService.save(body);
+    return {
+      saved: true,
+      assessment,
+    };
+  }
+
+  @ApiOperation({
+    summary: 'Save assessment in database',
+    description: 'Endpoint to save assessments in database',
+  })
+  @ApiResponse({
+    type: Assessment,
+    status: 200,
+  })
+  @Post('/create')
+  async createAssessment(@Body() body: CreateAssessmentDto) {
+    const assessment = await this.assessmentService.save(body);
     return {
       saved: true,
       assessment,
@@ -133,8 +153,27 @@ export class AssessmentController {
   })
   @Get('/logo')
   async getCompanyLogo() {
+    const [brand] = await this.brandingService.findAll();
+    return { logo: brand.logo };
+  }
+
+  @ApiOperation({
+    summary: 'Create branding',
+    description: 'Create branding',
+  })
+  @ApiResponse({
+    status: 201,
+  })
+  @Post('/branding')
+  async createNewBranding(@Body() body: CreateBrandingDto) {
+    const brand = await this.brandingService.save({
+      logo: body.logo,
+      primaryColorBtn: body.primaryColorBtn,
+      primaryColorText: body.primaryColorText,
+    });
     return {
-      logo: LOGO_URI,
+      saved: true,
+      brand,
     };
   }
 
@@ -143,14 +182,14 @@ export class AssessmentController {
     description: 'Endpoint to companys primary colors',
   })
   @ApiResponse({
-    type: Assessment,
     status: 200,
   })
   @Get('/colors')
   async getCompanyPrimaryColors() {
+    const [brand] = await this.brandingService.findAll();
     return {
-      buttonPrimaryColor: COLORS.BUTTON_PRIMARY_COLORS.BACKGROUND,
-      buttonTextPrimaryColor: COLORS.BUTTON_PRIMARY_COLORS.TEXT,
+      primaryColorBtn: brand.primaryColorBtn,
+      primaryColorText: brand.primaryColorText,
     };
   }
 
@@ -248,5 +287,21 @@ export class AssessmentController {
     } catch (error) {
       throw new HttpException('Question not found', 404);
     }
+  }
+
+  @ApiOperation({
+    summary: 'Create a question',
+    description: 'Create a question',
+  })
+  @ApiResponse({
+    status: 201,
+  })
+  @Post('/questions')
+  async createQuestion(@Body() body: CreateQuestionDto) {
+    const question = await this.questionService.createQuestion(body);
+    return {
+      saved: true,
+      question,
+    };
   }
 }

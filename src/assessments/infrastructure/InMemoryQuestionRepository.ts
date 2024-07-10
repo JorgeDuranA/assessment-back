@@ -1,7 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { QuestionModel, QuestionProps } from '../domain/models/Question.model';
-import { IQuestionRepository } from '../domain/repositories/IQuestion.repository.interface';
-
+/*
 const questions = [
   {
     id: 1,
@@ -339,3 +336,5 @@ export class InMemoryQuestionRepository implements IQuestionRepository {
       .map((question) => new QuestionModel(question));
   }
 }
+
+*/

@@ -15,11 +15,8 @@ export class AssessmentsService implements IAssessmentService {
     private AssessmentRepository: IAssessmentRepository,
   ) {}
 
-  async save(
-    assessment: CreateAssessmentDto,
-    id: number,
-  ): Promise<AssessmentModel> {
-    const newAssessment = await this.AssessmentRepository.save(assessment, id);
+  async save(assessment: CreateAssessmentDto): Promise<AssessmentModel> {
+    const newAssessment = await this.AssessmentRepository.save(assessment);
     return newAssessment;
   }
 

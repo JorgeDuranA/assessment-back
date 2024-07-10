@@ -12,5 +12,5 @@ export class Branding {
   primaryColorBtn: string;
 
   @Column()
-  primaryColorBtnText: string;
+  primaryColorText: string;
 }
