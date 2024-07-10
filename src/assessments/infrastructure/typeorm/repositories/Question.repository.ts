@@ -90,6 +90,24 @@ export class QuestionRepository implements IQuestionRepository {
     );
   }
 
+  async findById(assessmentId: number, id: number): Promise<QuestionModel> {
+    const result = await this.questionDB.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (result) {
+      return new QuestionModel({
+        id: result.id,
+        step: result.step,
+        question: result.questionText,
+        assessment: result.assessment,
+        options: [],
+      });
+    }
+  }
+
   async findByStep(step: number): Promise<QuestionModel[]> {
     const result = await this.questionDB.find({
       where: {

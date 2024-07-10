@@ -180,9 +180,71 @@ export class AssessmentController {
     type: 'integer',
   })
   @Get('/questions/:assessmentId')
-  async getQuestionById(@Param('assessmentId') assessmentId: number) {
+  async getQuestionByAssessment(@Param('assessmentId') assessmentId: number) {
     try {
       return await this.questionService.getQuestionsByAssessment(assessmentId);
+    } catch (error) {
+      throw new HttpException('Question not found', 404);
+    }
+  }
+
+  @ApiOperation({
+    summary: 'Retrieve a question by assessment ID',
+    description: 'Endpoint to retrieve questions by assessment ID',
+  })
+  @ApiResponse({
+    status: 200,
+  })
+  @ApiParam({
+    name: 'assessmentId',
+    description: 'The ID of the assessmet to retrieve questions',
+    required: true,
+    type: 'integer',
+  })
+  @ApiParam({
+    name: 'questionId',
+    description: 'The ID of the assessmet to retrieve questions',
+    required: true,
+    type: 'integer',
+  })
+  @Get('/questions/:assessmentId/:questionId')
+  async getQuestionById(
+    @Param('assessmentId') assessmentId: number,
+    @Param('questionId') questionId: number,
+  ) {
+    try {
+      return await this.questionService.findById(assessmentId, questionId);
+    } catch (error) {
+      throw new HttpException('Question not found', 404);
+    }
+  }
+
+  @ApiOperation({
+    summary: 'Retrieve a question by step',
+    description: 'Endpoint to retrieve questions by step',
+  })
+  @ApiResponse({
+    status: 200,
+  })
+  @ApiParam({
+    name: 'assessmentId',
+    description: 'The ID of the assessmet to retrieve questions',
+    required: true,
+    type: 'integer',
+  })
+  @ApiParam({
+    name: 'step',
+    description: 'The step of the question to retrieve questions',
+    required: true,
+    type: 'integer',
+  })
+  @Get('/questions/step/:assessmentId/:step')
+  async getQuestionByStep(
+    @Param('assessmentId') assessmentId: number,
+    @Param('step') step: number,
+  ) {
+    try {
+      return await this.questionService.findByStep(assessmentId, step);
     } catch (error) {
       throw new HttpException('Question not found', 404);
     }

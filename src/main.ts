@@ -4,11 +4,13 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { json, urlencoded } from 'express';
 import { AppModule } from './app.module';
-import { corsOptions } from './config/cors';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors(corsOptions);
+  app.enableCors({
+    origin: '*',
+    allowedHeaders: 'Content-Type, Accept',
+  });
   app.use(json({ limit: '70mb' }));
   app.use(urlencoded({ extended: true, limit: '70mb' }));
   app.useGlobalPipes(new ValidationPipe());
