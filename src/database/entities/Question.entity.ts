@@ -1,11 +1,11 @@
 import {
   Column,
-  CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
+import { Answer } from './Answer.entity';
 import { Assessment } from './Assessment.entity';
 
 @Entity()
@@ -13,21 +13,18 @@ export class Question {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Assessment, (assessment) => assessment.id)
+  @ManyToOne(() => Assessment, (assessment) => assessment.id, { cascade: true })
   assessment: Assessment;
+
+  @OneToMany(() => Answer, (answer) => answer.id, { cascade: true })
+  answers: Answer[];
+
+  @Column('simple-array', { nullable: true })
+  options: string[];
 
   @Column()
   questionText: string;
 
   @Column()
-  questionType: string; // single_choice or multiple_choice
-
-  @Column()
   step: number;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 }

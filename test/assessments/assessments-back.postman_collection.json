@@ -74,7 +74,31 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "{{base_url}}/assessments/questions/2",
+				"url": "{{base_url}}/assessments/questions/1",
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": []
+		},
+		{
+			"name": "/questions/:assessmentId/:questionId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{base_url}}/assessments/questions/step/1/2",
 				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
 			},
 			"response": []
@@ -97,11 +121,11 @@
 				}
 			],
 			"request": {
-				"method": "POST",
+				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"questionId\": 5,\n  \"assessmentId\": 2,\n  \"values\": [4,2,5],\n  \"multipleChoice\": true\n}",
+					"raw": "{\n  \"questionId\": 3,\n  \"answerText\": \"UnHappy\",\n  \"assessmentId\": 1\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -109,6 +133,40 @@
 					}
 				},
 				"url": "{{base_url}}/assessments/save",
+				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+			},
+			"response": []
+		},
+		{
+			"name": "/assessments/create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"title\": \"assessment 3\",\n \"description\": \"desc assessment 3\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/assessments/create",
 				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
 			},
 			"response": []
@@ -128,6 +186,42 @@
 				"method": "GET",
 				"header": [],
 				"url": "{{base_url}}/assessments/colors"
+			},
+			"response": []
+		},
+		{
+			"name": "assessments/questions",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"assessment\": 1,\n    \"questionText\": \"2. Feeling down, depressed, or hopeless\",\n    \"options\": [\n      \"Not at all\",\n      \"Several days\",\n      \"More than half the days\",\n      \"Nearly every day\"\n    ],\n    \"step\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/assessments/questions"
+			},
+			"response": []
+		},
+		{
+			"name": "assessments/branding",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"logo\": \"https://firebasestorage.googleapis.com/v0/b/daystohappy-production.appspot.com/o/logos%2Fckfo415d400201bs6mwxkp6w7-logo.png?alt=media&token=e0b5d375-86d4-4104-97c3-b1028f0e0a03\",\n    \"primaryColorBtn\": \"#55CC44\",\n    \"primaryColorText\": \"#103050\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/assessments/branding"
 			},
 			"response": []
 		}
@@ -153,6 +247,10 @@
 		}
 	],
 	"variable": [
+		{
+			"key": "id",
+			"value": "1"
+		},
 		{
 			"key": "base_url",
 			"value": "http://localhost:5000/api/v1"

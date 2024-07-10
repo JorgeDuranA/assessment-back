@@ -1,7 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { QuestionModel, QuestionProps } from '../domain/models/Question.model';
-import { IQuestionRepository } from '../domain/repositories/IQuestion.repository.interface';
-
+/*
 const questions = [
   {
     id: 1,
@@ -312,17 +309,32 @@ export class InMemoryQuestionRepository implements IQuestionRepository {
     return questions.map((question) => new QuestionModel(question));
   }
 
+  async findById(assessmentId: number, id: number): Promise<QuestionModel> {
+    this.logger.log('Finding by id ' + id);
+    return new QuestionModel(
+      questions.find((q) => q.id == id && q.assessment == assessmentId),
+    );
+  }
+
   async findByAssessment(assessmentId: number): Promise<QuestionModel[]> {
     this.logger.log('Finding all by assessment ' + assessmentId);
 
     return questions
-      .filter((question) => question.assessment === assessmentId)
-      .map((question) => new QuestionModel(question));
+      .map((question) => new QuestionModel(question))
+      .filter((q) => q.assessment == assessmentId);
   }
 
-  async findByStep(step: number): Promise<QuestionModel[]> {
+  async findByStep(
+    assessmentId: number,
+    step: number,
+  ): Promise<QuestionModel[]> {
     return questions
-      .filter((question) => question.step === step)
+      .filter(
+        (question) =>
+          question.step == step && assessmentId == question.assessment,
+      )
       .map((question) => new QuestionModel(question));
   }
 }
+
+*/

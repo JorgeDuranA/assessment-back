@@ -19,12 +19,12 @@ export class AssessmentRepository implements IAssessmentRepository {
   ) {}
 
   async save(assessment: AssessmentProps): Promise<AssessmentModel> {
-    this.logger.log('Saving assessment');
-    const result = this.assessmentDB.create({
+    const result = await this.assessmentDB.save({
       ...assessment,
     });
-    const { id } = result;
-    return await this.findOneById(id);
+    this.logger.log('Saving assessment', JSON.stringify(result));
+
+    return await this.findOneById(result.id);
   }
 
   async findOneById(id: number): Promise<AssessmentModel> {
@@ -34,8 +34,13 @@ export class AssessmentRepository implements IAssessmentRepository {
       },
     });
 
+    this.logger.log('finding assessment', JSON.stringify(result));
+
     if (result) {
-      return new AssessmentModel(result);
+      return new AssessmentModel({
+        title: result.title,
+        description: result.description,
+      });
     }
   }
 

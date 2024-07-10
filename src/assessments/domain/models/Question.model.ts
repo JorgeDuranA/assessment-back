@@ -1,11 +1,9 @@
 import { BaseModel } from '@/common/models/BaseModel.model';
 
 export interface QuestionProps {
-  id: number;
-
   assessment: any;
 
-  question: string;
+  questionText: string;
 
   options: string[];
 
@@ -17,7 +15,7 @@ export class QuestionModel extends BaseModel implements QuestionProps {
 
   assessment: any;
 
-  question: string;
+  questionText: string;
 
   options: string[];
 

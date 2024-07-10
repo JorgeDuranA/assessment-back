@@ -2,7 +2,7 @@ import { CreateAssessmentDto } from '@/assessments/application/dtos/CreateAssess
 import { AssessmentModel, AssessmentProps } from '../models/Assessment.model';
 
 export interface IAssessmentService {
-  save(assessment: CreateAssessmentDto, id?: number): Promise<AssessmentModel>;
+  save(assessment: CreateAssessmentDto): Promise<AssessmentModel>;
   getAll(): Promise<AssessmentModel[]>;
   update(
     id: number,
