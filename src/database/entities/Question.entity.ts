@@ -2,26 +2,28 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Assessment } from './Assessment.entity';
 
 @Entity()
-export class Assessment {
+export class Question {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  title: string;
+  @ManyToOne(() => Assessment, (assessment) => assessment.id)
+  assessment: Assessment;
 
   @Column()
-  description: string;
+  questionText: string;
 
   @Column()
-  currentStep: number;
+  questionType: string; // single_choice or multiple_choice
 
   @Column()
-  nextStep: number;
+  step: number;
 
   @CreateDateColumn()
   createdAt: Date;

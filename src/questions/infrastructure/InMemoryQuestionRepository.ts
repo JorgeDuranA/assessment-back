@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { QuestionModel } from '../domain/models/Question.model';
+import { QuestionModel, QuestionProps } from '../domain/models/Question.model';
 import { IQuestionRepository } from '../domain/repositories/IQuestion.repository.interface';
 
 const questions = [
@@ -24,6 +24,10 @@ const questions = [
 @Injectable()
 export class InMemoryQuestionRepository implements IQuestionRepository {
   private readonly logger = new Logger();
+
+  create(question: QuestionProps): Promise<QuestionModel> {
+    throw new Error('Method not implemented.');
+  }
 
   async findAll(): Promise<QuestionModel[]> {
     return questions.map(

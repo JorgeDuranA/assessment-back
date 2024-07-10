@@ -1,4 +1,7 @@
-import { AssessmentModel } from '@/assessments/domain/models/Assessment.model';
+import {
+  AssessmentModel,
+  AssessmentProps,
+} from '@/assessments/domain/models/Assessment.model';
 import { IAssessmentRepository } from '@/assessments/domain/repositories/IAssement.repository.interface';
 import { IAssessmentService } from '@/assessments/domain/services/IAssessment.service.interface';
 import SymbolsAssessments from '@/assessments/symbols';
@@ -23,5 +26,13 @@ export class AssessmentsService implements IAssessmentService {
   async getAll(): Promise<AssessmentModel[]> {
     const assessments = await this.AssessmentRepository.findAll();
     return assessments;
+  }
+
+  async update(id: number, assessment: Partial<AssessmentProps>) {
+    const updatedAssessment = await this.AssessmentRepository.updateById(
+      id,
+      assessment,
+    );
+    return updatedAssessment;
   }
 }

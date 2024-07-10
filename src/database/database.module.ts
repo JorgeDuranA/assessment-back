@@ -12,6 +12,10 @@ import ormconfig from '../../ormconfig';
       useFactory: (configService: ConfigType<typeof config>) => {
         const { type, username, host, database, password, port } =
           configService.postgres;
+        console.log(
+          '🚀 ~ file: database.module.ts ~ line 47 ~ useFactory ~ configService',
+          password,
+        );
         return {
           ...ormconfig,
           type: type as any,
@@ -20,6 +24,12 @@ import ormconfig from '../../ormconfig';
           username: username,
           password: password,
           database: database,
+          ssl: true,
+          extra: {
+            ssl: {
+              rejectUnauthorized: false,
+            },
+          },
           // logging: ['query', 'error'],
         };
       },

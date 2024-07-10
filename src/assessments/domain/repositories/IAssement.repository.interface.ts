@@ -7,5 +7,8 @@ export interface IAssessmentRepository {
   findOneById(id: number): Promise<AssessmentModel>;
   save(assessment: AssessmentProps, id?: number): Promise<AssessmentModel>;
   findAll(): Promise<AssessmentModel[]>;
-  updateById(id: number, update: AssessmentModel): Promise<AssessmentModel>;
+  updateById(
+    id: number,
+    update: Partial<AssessmentProps>,
+  ): Promise<AssessmentModel>;
 }

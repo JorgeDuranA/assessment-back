@@ -11,18 +11,10 @@ let assessments: AssessmentModel[] = [];
 export class InMemoryAssessmentRepository implements IAssessmentRepository {
   private readonly logger = new Logger();
 
-  async save(
-    assessment: AssessmentProps,
-    id?: number,
-  ): Promise<AssessmentModel> {
+  async save(assessment: AssessmentProps): Promise<AssessmentModel> {
     this.logger.log('Saving assessment');
-    if (id) {
-      const result = this.updateById(id, assessment);
-      this.logger.log('id detected');
-      return result;
-    }
     const newAssessment = new AssessmentModel(assessment);
-    newAssessment.id = Math.floor(Math.random() * 1000000);
+    newAssessment.id = assessments.length + 1;
     assessments.push(newAssessment);
     return this.findOneById(newAssessment.id);
   }
