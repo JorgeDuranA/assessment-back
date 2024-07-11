@@ -10,9 +10,7 @@ if (config().app.env === 'dev') {
   ];
 }
 
-const whiteList = [
-  ...whiteListDev,
-];
+const whiteList = [...whiteListDev];
 
 export const corsOptions = {
   origin: function (origin, callback) {

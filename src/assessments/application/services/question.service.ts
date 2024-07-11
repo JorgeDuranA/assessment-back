@@ -29,4 +29,20 @@ export class QuestionService implements IQuestionService {
     );
     return questions;
   }
+
+  async findById(assessmentId: number, id: number): Promise<QuestionModel> {
+    const question = await this.questionRepository.findById(assessmentId, id);
+    return question;
+  }
+
+  async findByStep(
+    assessmentId: number,
+    step: number,
+  ): Promise<QuestionModel[]> {
+    const questions = await this.questionRepository.findByStep(
+      assessmentId,
+      step,
+    );
+    return questions;
+  }
 }

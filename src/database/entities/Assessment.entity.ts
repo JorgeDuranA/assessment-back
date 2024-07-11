@@ -1,10 +1,6 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Answer } from './Answer.entity';
+import { Question } from './Question.entity';
 
 @Entity()
 export class Assessment {
@@ -17,15 +13,9 @@ export class Assessment {
   @Column()
   description: string;
 
-  @Column()
-  currentStep: number;
+  @OneToMany(() => Question, (question) => question.id)
+  questions: Question[];
 
-  @Column()
-  nextStep: number;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
+  @OneToMany(() => Answer, (answer) => answer.id)
+  answers: Answer[];
 }

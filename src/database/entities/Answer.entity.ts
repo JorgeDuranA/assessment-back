@@ -1,11 +1,5 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Assessment } from './Assessment.entity';
 import { Question } from './Question.entity';
 
 @Entity()
@@ -16,15 +10,12 @@ export class Answer {
   @ManyToOne(() => Question, (question) => question.id)
   question: Question;
 
-  @Column()
+  @Column({ nullable: true })
   answerText: string;
 
-  @Column('numeric', { precision: 10, scale: 2 })
+  @Column({ nullable: true })
   answerValue: number;
 
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
+  @ManyToOne(() => Assessment, (assessment) => assessment.id)
+  assessment: Assessment;
 }

@@ -5,7 +5,6 @@ import {
   QuestionProps,
 } from '@/assessments/domain/models/Question.model';
 import { IQuestionRepository } from '@/assessments/domain/repositories/IQuestion.repository.interface';
-import { Assessment } from '@/database/entities/Assessment.entity';
 import { Question } from '@/database/entities/Question.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -15,15 +14,19 @@ export class QuestionRepository implements IQuestionRepository {
   private readonly logger = new Logger();
 
   constructor(
-    @InjectRepository(Assessment)
+    @InjectRepository(Question)
     private readonly questionDB: Repository<Question>,
   ) {}
 
   async create(question: QuestionProps): Promise<QuestionModel> {
-    this.logger.log('Saving assessment');
-    const result = this.questionDB.create({
-      ...question,
-    });
+    const q = new Question();
+
+    q.assessment = question.assessment;
+    q.questionText = question.questionText;
+    q.options = question.options;
+    q.step = question.step;
+    this.logger.log('Saving assessment', JSON.stringify(q));
+    const result = await this.questionDB.save(q);
     return this.findOneById(result.id);
   }
 
@@ -32,29 +35,32 @@ export class QuestionRepository implements IQuestionRepository {
       where: {
         id,
       },
+      relations: ['assessment'],
     });
 
     if (result) {
-      return new QuestionModel({
-        id: result.id,
+      const q = new QuestionModel({
         step: result.step,
-        question: result.questionText,
+        questionText: result.questionText,
         assessment: result.assessment,
-        options: [],
+        options: result.options,
       });
+      q.id = result.id;
+      return q;
     }
   }
 
   async findAll(): Promise<QuestionModel[]> {
-    const result = await this.questionDB.find();
+    const result = await this.questionDB.find({
+      relations: ['assessment'],
+    });
     return result.map(
       (question) =>
         new QuestionModel({
-          id: question.id,
           step: question.step,
-          question: question.questionText,
+          questionText: question.questionText,
           assessment: question.assessment,
-          options: [],
+          options: question.options,
         }),
     );
   }
@@ -62,9 +68,7 @@ export class QuestionRepository implements IQuestionRepository {
   async updateById(id: number, update: QuestionProps): Promise<QuestionModel> {
     const result = await this.findOneById(id);
     if (result) {
-      await this.questionDB.update(id, {
-        ...update,
-      });
+      //await this.questionDB.update(id, { ...update, options: update.options.map(option => ({ text: option })) });
 
       const updated = this.findOneById(id);
       return updated;
@@ -74,37 +78,63 @@ export class QuestionRepository implements IQuestionRepository {
   async findByAssessment(assessmentId: number): Promise<QuestionModel[]> {
     const result = await this.questionDB.find({
       where: {
-        id: assessmentId,
+        assessment: {
+          id: assessmentId,
+        },
       },
+      relations: ['assessment'],
     });
 
     return result.map(
       (res) =>
         new QuestionModel({
-          id: res.id,
           step: res.step,
-          question: res.questionText,
+          questionText: res.questionText,
           assessment: res.assessment,
-          options: [],
+          options: res.options,
         }),
     );
   }
 
-  async findByStep(step: number): Promise<QuestionModel[]> {
+  async findById(assessmentId: number, id: number): Promise<QuestionModel> {
+    const result = await this.questionDB.findOne({
+      where: {
+        id,
+      },
+      relations: ['assessment'],
+    });
+
+    if (result) {
+      return new QuestionModel({
+        step: result.step,
+        questionText: result.questionText,
+        assessment: result.assessment,
+        options: [],
+      });
+    }
+  }
+
+  async findByStep(
+    assessmentId: number,
+    step: number,
+  ): Promise<QuestionModel[]> {
     const result = await this.questionDB.find({
       where: {
         step,
+        assessment: {
+          id: assessmentId,
+        },
       },
+      relations: ['assessment'],
     });
 
     return result.map(
       (res) =>
         new QuestionModel({
-          id: res.id,
           step: res.step,
-          question: res.questionText,
+          questionText: res.questionText,
           assessment: res.assessment,
-          options: [],
+          options: res.options,
         }),
     );
   }

@@ -5,7 +5,7 @@ import {
 
 export interface IAssessmentRepository {
   findOneById(id: number): Promise<AssessmentModel>;
-  save(assessment: AssessmentProps, id?: number): Promise<AssessmentModel>;
+  save(assessment: AssessmentProps): Promise<AssessmentModel>;
   findAll(): Promise<AssessmentModel[]>;
   updateById(
     id: number,

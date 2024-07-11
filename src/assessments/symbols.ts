@@ -5,6 +5,8 @@ const SymbolsAssessments = {
   IQuestionRepository: Symbol.for('IQuestionRepository'),
   IAnswerRepository: Symbol.for('IAnswerRepository'),
   IAnswerService: Symbol.for('IAnswerService'),
+  IBrandingRepository: Symbol.for('IBrandingRepository'),
+  IBrandingService: Symbol.for('IBrandingService'),
 };
 
 export default SymbolsAssessments;

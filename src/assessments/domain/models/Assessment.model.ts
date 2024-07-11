@@ -1,8 +1,6 @@
 import { BaseModel } from '@/common/models/BaseModel.model';
 
 export interface AssessmentProps {
-  id: number;
-
   title: string;
 
   description: string;

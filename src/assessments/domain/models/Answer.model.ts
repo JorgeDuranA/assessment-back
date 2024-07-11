@@ -2,6 +2,7 @@ import { BaseModel } from '@/common/models/BaseModel.model';
 
 export interface AnswerProps {
   question: any;
+
   assessment: any;
 
   answerText: string | null;
@@ -13,6 +14,7 @@ export class AnswerModel extends BaseModel implements AnswerProps {
   id: number;
 
   question: any;
+
   assessment: any;
 
   answerText: string | null;
