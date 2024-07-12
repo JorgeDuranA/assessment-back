@@ -46,5 +46,6 @@ jobs:
             key: "${{ secrets.SSH_PRIVATE_KEY_DEV }}"
             script: |                      
               cd /var/www/assessmentBack/
-              cd /var/www/assessmentBack/ && npm install              
+              cd /var/www/assessmentBack/ && npm install       
+              echo ${{ vars.DEVENV }} | base64 --decode --ignore-garbage > .env
               cd /var/www/assessmentBack/ && pm2 stop assessmentBack && pm2 delete assessmentBack && pm2 start npm --name "assessmentBack" -- start
