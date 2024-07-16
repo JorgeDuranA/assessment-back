@@ -21,7 +21,8 @@
     "typeorm": "typeorm-ts-node-commonjs -d ormconfig.cli.ts",
     "typeorm:migrate": "npm run typeorm migration:generate",
     "typeorm:run": "npm run typeorm migration:run",
-    "migration:create": "npm run typeorm -- migration:create./src/database/migrations/"
+    "migration:create": "npm run typeorm -- migration:create./src/database/migrations/",
+    "postinstall": "npm install @types/cron"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.332.0",
