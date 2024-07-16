@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { AnswerModel, AnswerProps } from '../domain/models/Answer.model';
-import { IAnswerRepository } from '../domain/repositories/IAnswer.repository.interface';
+import { AnswerModel, AnswerProps } from '../../domain/models/Answer.model';
+import { IAnswerRepository } from '../../domain/repositories/IAnswer.repository.interface';
 
 const answers: AnswerModel[] = [];
 

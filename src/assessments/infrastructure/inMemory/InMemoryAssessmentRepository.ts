@@ -2,8 +2,8 @@ import { Injectable, Logger } from '@nestjs/common';
 import {
   AssessmentModel,
   AssessmentProps,
-} from '../domain/models/Assessment.model';
-import { IAssessmentRepository } from '../domain/repositories/IAssement.repository.interface';
+} from '../../domain/models/Assessment.model';
+import { IAssessmentRepository } from '../../domain/repositories/IAssement.repository.interface';
 
 let assessments: AssessmentModel[] = [];
 
