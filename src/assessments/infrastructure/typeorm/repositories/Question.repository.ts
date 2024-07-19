@@ -54,15 +54,16 @@ export class QuestionRepository implements IQuestionRepository {
     const result = await this.questionDB.find({
       relations: ['assessment'],
     });
-    return result.map(
-      (question) =>
-        new QuestionModel({
-          step: question.step,
-          questionText: question.questionText,
-          assessment: question.assessment,
-          options: question.options,
-        }),
-    );
+    return result.map((question) => {
+      const q = new QuestionModel({
+        step: question.step,
+        questionText: question.questionText,
+        assessment: question.assessment,
+        options: question.options,
+      });
+      q.id = question.id;
+      return q;
+    });
   }
 
   async updateById(id: number, update: QuestionProps): Promise<QuestionModel> {
@@ -85,15 +86,16 @@ export class QuestionRepository implements IQuestionRepository {
       relations: ['assessment'],
     });
 
-    return result.map(
-      (res) =>
-        new QuestionModel({
-          step: res.step,
-          questionText: res.questionText,
-          assessment: res.assessment,
-          options: res.options,
-        }),
-    );
+    return result.map((question) => {
+      const q = new QuestionModel({
+        step: question.step,
+        questionText: question.questionText,
+        assessment: question.assessment,
+        options: question.options,
+      });
+      q.id = question.id;
+      return q;
+    });
   }
 
   async findById(assessmentId: number, id: number): Promise<QuestionModel> {
@@ -105,12 +107,14 @@ export class QuestionRepository implements IQuestionRepository {
     });
 
     if (result) {
-      return new QuestionModel({
+      const q = new QuestionModel({
         step: result.step,
         questionText: result.questionText,
         assessment: result.assessment,
-        options: [],
+        options: result.options,
       });
+      q.id = result.id;
+      return q;
     }
   }
 
@@ -128,14 +132,15 @@ export class QuestionRepository implements IQuestionRepository {
       relations: ['assessment'],
     });
 
-    return result.map(
-      (res) =>
-        new QuestionModel({
-          step: res.step,
-          questionText: res.questionText,
-          assessment: res.assessment,
-          options: res.options,
-        }),
-    );
+    return result.map((question) => {
+      const q = new QuestionModel({
+        step: question.step,
+        questionText: question.questionText,
+        assessment: question.assessment,
+        options: question.options,
+      });
+      q.id = question.id;
+      return q;
+    });
   }
 }
